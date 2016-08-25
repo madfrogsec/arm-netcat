@@ -1,4 +1,4 @@
-# How to compile netcat for ARM device
+# How to compile netcat for ARM devices
 
 ### Setup crosstool-ng
 
@@ -66,7 +66,7 @@ Then, we just add our symlink dir at the beginning of our PATH, so when the syst
     ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, for GNU/Linux 3.18.12, stripped
 
 
-### Usefull links
+### Useful links
 
   * Crosstool-ng	https://github.com/crosstool-ng/crosstool-ng
   * Linux Kernel	https://www.kernel.org/pub/linux/kernel/
