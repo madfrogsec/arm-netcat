@@ -52,14 +52,14 @@ Then, we just add our symlink dir at the beginning of our PATH, so when the syst
     ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.18.12, not stripped
 
 
-### (Optionnal) Recompile ncat statically linked (heavier binary but more likely to run on target)
+### (Optional) Recompile ncat statically linked (heavier binary but more likely to run on target)
 
     $ gcc -o ncat -g -O2 -Wall -static -L../libpcap  ncat_main.o ncat_connect.o ncat_core.o ncat_posix.o ncat_listen.o ncat_proxy.o ncat_ssl.o base64.o http.o util.o sys_wrap.o  ../nsock/src/libnsock.a ../nbase/libnbase.a  -lpcap  -ldl
     $ file ncat
     ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, for GNU/Linux 3.18.12, not stripped
 
 
-### (Optionnal) Strip ncat to reduce binary size
+### (Optional) Strip ncat to reduce binary size
 
     $ strip ncat
     $ file ncat
