@@ -12,7 +12,6 @@ Options to check :
   * Operating System > Target OS > either select one of available kernel or specify a custom tarball path
   * If a custom kernel tarball is specified, set 'Custom Linux version' to the corresponding one (e.g. 3.18.12)
   * C-library > C-library > select the libc you want and its version
-  * C-library > C-library > select the libc you want and its version
   * C-compiler > gcc version > select target gcc version
 
 ```$ ./ct-ng build```
