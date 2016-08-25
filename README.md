@@ -1,2 +1,72 @@
-# arm-netcat
-How to compile netcat for ARM
+# How to compile netcat for ARM device
+
+## Setup crosstool-ng
+
+    $ git clone https://github.com/crosstool-ng/crosstool-ng && cd crosstool-ng
+    $ ./bootstrap
+    $ ./configure --enable-local
+    $ make
+    $ ./ct-ng menuconfig
+
+Options to check :
+  * Target options > Target Achitecture > select arm
+  * Operating System > Target OS > either select one of available kernel or specify a custom tarball path
+  * If a custom kernel tarball is specified, set 'Custom Linux version' to the corresponding one (e.g. 3.18.12C-library > C-library > select the libc you want and its version
+  * C-library > C-library > select the libc you want and its version
+  * C-compiler > gcc version > select target gcc version
+
+    $ ./ct-ng build
+
+	The cross-compiling toolchain is in ~/x-tools/arm-unknown-linux-gnueabi/bin/
+
+
+## Create symlink of all toolchain in a single dir
+
+    $ cd ~
+    $ mkdir arm-gcc && cd arm-gcc
+    $ for f in ~/x-tools/arm-unknown-linux-gnueabi/bin/*; do ln -s $f $(echo $f | cut -d '-' -f9-); done
+
+
+## Set your PATH so when your system calls gcc, it will first finds our arm toolchain
+
+    $ PATH=/home/$USER/arm-gcc:$PATH
+
+
+## Download nmap sources (which contains ncat)
+
+    $ cd ~
+    $ git clone https://github.com/nmap/nmap && cd nmap
+
+
+## Compile netcat for arm target
+
+    $ ./configure --host=arm-unknown-linux-gnueabi --with-pcap=null
+    $ cd libpcap
+    $ make
+    $ cd ../ncat/
+    $ make
+    $ file ncat 
+    ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.18.12, not stripped
+
+
+## (Optionnal) Recompile ncat statically linked (heavier binary but more likely to run on target)
+
+    $ gcc -o ncat -g -O2 -Wall -static -L../libpcap  ncat_main.o ncat_connect.o ncat_core.o ncat_posix.o ncat_listen.o ncat_proxy.o ncat_ssl.o base64.o http.o util.o sys_wrap.o  ../nsock/src/libnsock.a ../nbase/libnbase.a  -lpcap  -ldl
+    $ file ncat
+    ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, for GNU/Linux 3.18.12, not stripped
+
+
+## (Optionnal) Strip ncat to reduce binary size
+
+    $ strip ncat
+    $ file ncat
+    ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, for GNU/Linux 3.18.12, stripped
+
+
+## Usefull links
+
+  * Crosstool-ng	https://github.com/crosstool-ng/crosstool-ng
+  * Linux Kernel	https://www.kernel.org/pub/linux/kernel/
+  * nmap 		https://github.com/nmap/nmap
+  * gcc			https://gcc.gnu.org/releases.html
+
