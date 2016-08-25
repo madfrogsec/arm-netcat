@@ -1,10 +1,9 @@
 # How to compile netcat for ARM device
 
-## Setup crosstool-ng
+### Setup crosstool-ng
 
     $ git clone https://github.com/crosstool-ng/crosstool-ng && cd crosstool-ng
-    $ ./bootstrap
-    $ ./configure --enable-local
+    $ ./bootstrap && ./configure --enable-local
     $ make
     $ ./ct-ng menuconfig
 
@@ -17,28 +16,32 @@ Options to check :
 
     $ ./ct-ng build
 
-	The cross-compiling toolchain is in ~/x-tools/arm-unknown-linux-gnueabi/bin/
+The cross-compiling toolchain is in ~/x-tools/arm-unknown-linux-gnueabi/bin/
 
 
-## Create symlink of all toolchain in a single dir
+### Create symlink 
+
+Everything from your toolchain will look like "arm-unknown-linux-gnueabi-*". To avoid any useless and painful configuration, we will create symlink of each tool in a single dir with 'classical' toolchain names (such as gcc, ldd, objdump, etc).
 
     $ cd ~
     $ mkdir arm-gcc && cd arm-gcc
     $ for f in ~/x-tools/arm-unknown-linux-gnueabi/bin/*; do ln -s $f $(echo $f | cut -d '-' -f9-); done
 
 
-## Set your PATH so when your system calls gcc, it will first finds our arm toolchain
+### Set PATH environment variable
+
+Then, we just add our symlink dir at the beginning of our PATH, so when the system calls 'gcc', it will first grab our custom toolchain.
 
     $ PATH=/home/$USER/arm-gcc:$PATH
 
 
-## Download nmap sources (which contains ncat)
+### Download nmap sources (which contains ncat)
 
     $ cd ~
     $ git clone https://github.com/nmap/nmap && cd nmap
 
 
-## Compile netcat for arm target
+### Compile netcat for arm target
 
     $ ./configure --host=arm-unknown-linux-gnueabi --with-pcap=null
     $ cd libpcap
@@ -49,21 +52,21 @@ Options to check :
     ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.18.12, not stripped
 
 
-## (Optionnal) Recompile ncat statically linked (heavier binary but more likely to run on target)
+### (Optionnal) Recompile ncat statically linked (heavier binary but more likely to run on target)
 
     $ gcc -o ncat -g -O2 -Wall -static -L../libpcap  ncat_main.o ncat_connect.o ncat_core.o ncat_posix.o ncat_listen.o ncat_proxy.o ncat_ssl.o base64.o http.o util.o sys_wrap.o  ../nsock/src/libnsock.a ../nbase/libnbase.a  -lpcap  -ldl
     $ file ncat
     ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, for GNU/Linux 3.18.12, not stripped
 
 
-## (Optionnal) Strip ncat to reduce binary size
+### (Optionnal) Strip ncat to reduce binary size
 
     $ strip ncat
     $ file ncat
     ncat: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, for GNU/Linux 3.18.12, stripped
 
 
-## Usefull links
+### Usefull links
 
   * Crosstool-ng	https://github.com/crosstool-ng/crosstool-ng
   * Linux Kernel	https://www.kernel.org/pub/linux/kernel/
