@@ -16,7 +16,7 @@ Options to check :
 
 ```$ ./ct-ng build```
 
-The cross-compiling toolchain is in ~/x-tools/arm-unknown-linux-gnueabi/bin/
+The cross-compiling toolchain is in `~/x-tools/arm-unknown-linux-gnueabi/bin/`
 
 
 ### Create symlink 
