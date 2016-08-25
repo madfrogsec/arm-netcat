@@ -19,7 +19,7 @@ Options to check :
 The cross-compiling toolchain is in `~/x-tools/arm-unknown-linux-gnueabi/bin/`
 
 
-### Create symlink 
+### Create symlinks for ease-of-use
 
 Everything from your toolchain will look like "arm-unknown-linux-gnueabi-*". To avoid any useless and painful configuration, we will create symlink of each tool in a single dir with 'classical' toolchain names (such as gcc, ldd, objdump, etc).
 
