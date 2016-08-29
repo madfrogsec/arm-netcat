@@ -1,6 +1,7 @@
 # How to compile netcat for ARM devices
 
-This tutorial presents a quick and efficient way to compile netcat for arm architectures. Tested on an ARMv7l 32bits device (Freescale quadri-core cpu). 
+This tutorial presents a quick and efficient way to compile netcat for arm architectures.  
+Tested on an ARMv7l 32bits device (Freescale quadri-core cpu). 
 
 This repo also contains an already-compiled netcat for arm.
 
