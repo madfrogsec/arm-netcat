@@ -1,5 +1,9 @@
 # How to compile netcat for ARM devices
 
+This tutorial presents a quick and efficient way to compile netcat for arm architectures. Tested on an ARMv7l 32bits device (Freescale quadri-core cpu). 
+
+This repo also contains an already-compiled netcat for arm.
+
 ### Setup crosstool-ng
 
     $ git clone https://github.com/crosstool-ng/crosstool-ng && cd crosstool-ng
@@ -14,7 +18,9 @@ Options to check :
   * C-library > C-library > select the libc you want and its version
   * C-compiler > gcc version > select target gcc version
 
-```$ ./ct-ng build```
+```
+$ ./ct-ng build
+```
 
 The cross-compiling toolchain is in `~/x-tools/arm-unknown-linux-gnueabi/bin/`
 
